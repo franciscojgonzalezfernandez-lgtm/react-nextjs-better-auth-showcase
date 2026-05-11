@@ -10,7 +10,7 @@ export default function Dashboard() {
   const { data: session, isPending } = useSession();
 
   useEffect(() => {
-    if (!isPending && !session) router.replace("/auth");
+    if (!isPending && !session) router.replace("/unauthorized");
   }, [isPending, session, router]);
 
   const handleSignOut = async () => {

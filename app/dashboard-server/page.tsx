@@ -1,13 +1,13 @@
 import Link from "next/link";
 import { headers } from "next/headers";
-import { redirect } from "next/navigation";
+import { unauthorized } from "next/navigation";
 import { auth } from "@/lib/auth";
 import SignOutButton from "@/app/components/SignOutButton";
 import { revokeOtherSessionsAction, updateUserAction } from "./actions";
 
 export default async function DashboardServer() {
   const session = await auth.api.getSession({ headers: await headers() });
-  if (!session) redirect("/auth");
+  if (!session) unauthorized();
 
   const { user, session: sessionData } = session;
 

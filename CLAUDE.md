@@ -30,8 +30,11 @@ Next.js boilerplate that integrates [better-auth](https://www.better-auth.com) w
 app/
   api/auth/[...all]/route.ts   better-auth HTTP handler (catch-all)
   auth/page.tsx                Sign in / sign up UI
-  dashboard/page.tsx           Protected page (uses useSession)
-  components/                  Shared client components (Navigation, etc.)
+  dashboard/page.tsx           Protected client page (useSession + router.replace to /unauthorized)
+  dashboard-server/page.tsx    Protected server page (auth.api.getSession + unauthorized())
+  unauthorized.tsx             Special segment rendered by Next.js when unauthorized() is thrown
+  unauthorized/page.tsx        Regular route, target of router.replace from client dashboard
+  components/                  Shared components (Navigation, SignOutButton, UnauthorizedScreen)
   layout.tsx, page.tsx, globals.css
 lib/
   auth.ts                      Server-side better-auth config (single source of truth)
@@ -39,7 +42,6 @@ lib/
   prisma.ts                    Prisma singleton wired with the Neon adapter
 prisma/
   schema.prisma                User/Session/Account/Verification + app models
-middleware.ts                  Cheap cookie check that guards /dashboard
 ```
 
 ## Auth conventions
@@ -47,7 +49,11 @@ middleware.ts                  Cheap cookie check that guards /dashboard
 - **better-auth is the only source of truth for sessions.** Do not use `localStorage` to track auth state — it gets out of sync with the server and can be spoofed. Use `authClient.useSession()` in client components and `auth.api.getSession({ headers: await headers() })` in server components/route handlers.
 - The catch-all route at [app/api/auth/[...all]/route.ts](app/api/auth/[...all]/route.ts) handles every `/api/auth/*` request — never add sibling routes under `/api/auth/`.
 - OAuth callback URLs are fixed by better-auth: `/api/auth/callback/github` and `/api/auth/callback/google`. Register these in the GitHub and Google OAuth apps for every environment.
-- `middleware.ts` only does a cookie-existence check (cheap, runs on every request). For real authorization, also check the session inside the page/route — the middleware is defence in depth, not the gate.
+- **There is no `middleware.ts`.** Each protected route does its own session check. The boilerplate intentionally contrasts two patterns:
+  - **Server (RSC) — `app/dashboard-server/page.tsx`:** `if (!session) unauthorized();` throws a Next.js interrupt that renders `app/unauthorized.tsx` in place. URL is preserved, response status is real `401`, no client flash.
+  - **Client — `app/dashboard/page.tsx`:** `unauthorized()` is server-only, so the client uses `router.replace("/unauthorized")` after `useSession()` resolves. URL changes, status `200`, brief loading flash. This tradeoff is the pedagogical point.
+- `unauthorized()` requires `experimental.authInterrupts: true` in `next.config.ts` and is only callable from RSC, route handlers, and server actions — never from middleware or client components.
+- `app/unauthorized.tsx` (special segment, sibling of `app/layout.tsx`) and `app/unauthorized/page.tsx` (regular route) coexist on purpose — both render the shared `app/components/UnauthorizedScreen.tsx` so the visual is identical.
 - After changing `lib/auth.ts` (adding a provider, a plugin, etc.), re-run `npx @better-auth/cli generate` and then `npx prisma migrate dev` if the schema changed.
 
 ## Environment variables
