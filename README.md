@@ -1,8 +1,16 @@
-# How to use Better Auth
+# 🔐 Better Auth, Explained — A Hands-On Next.js Tutorial
 
-A didactic Next.js 15 boilerplate that wires up [better-auth](https://www.better-auth.com) with Prisma on Neon Postgres, plus GitHub + Google OAuth and Resend for email verification.
+> Learn how modern authentication really works in Next.js 15 — by reading **two protected dashboards side-by-side** and feeling the difference between client and server session checks in your own browser.
 
-The goal of this repo is to **teach** modern auth in the App Router — every protected route deliberately implements the session check a different way, so you can read both side-by-side and feel the tradeoffs in your own browser.
+[![GitHub stars](https://img.shields.io/github/stars/franciscojgonzalezfernandez-lgtm/better-auth-showcase?style=social)](https://github.com/franciscojgonzalezfernandez-lgtm/better-auth-showcase/stargazers)
+[![Sponsor](https://img.shields.io/badge/Sponsor-%F0%9F%92%9B-ff69b4)](https://github.com/sponsors/franciscojgonzalezfernandez-lgtm)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Next.js 15](https://img.shields.io/badge/Next.js-15-black?logo=next.js)](https://nextjs.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+
+This is an **open-source teaching boilerplate**. Every file is annotated. Every choice (no middleware, two dashboards, Resend sandbox, Neon HTTP driver) is deliberate — and explained below.
+
+> ⭐ **If this repo helps you learn,** star it so more people find it — and consider [sponsoring](https://github.com/sponsors/franciscojgonzalezfernandez-lgtm) to keep more tutorials like this coming.
 
 ## 🎯 What You'll Learn
 
@@ -231,4 +239,12 @@ What this means in practice:
 
 ---
 
-Built to learn modern auth with Next.js + better-auth.
+## 💛 Support this tutorial
+
+This repo is free and open source. If it helped you understand Next.js auth:
+
+- ⭐ **Star the repo** — it takes one click and helps others discover it: [star here](https://github.com/franciscojgonzalezfernandez-lgtm/better-auth-showcase)
+- 💛 **Sponsor on GitHub** — directly funds more tutorials like this one: [github.com/sponsors/franciscojgonzalezfernandez-lgtm](https://github.com/sponsors/franciscojgonzalezfernandez-lgtm)
+- 🐛 **Found a bug or unclear explanation?** Open an issue — improvements welcome.
+
+Built to **teach** modern auth with Next.js + better-auth.
