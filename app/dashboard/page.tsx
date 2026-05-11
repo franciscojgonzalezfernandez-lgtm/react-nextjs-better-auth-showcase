@@ -38,7 +38,9 @@ export default function Dashboard() {
         <div className="bg-white rounded-lg shadow-md p-6 mb-8">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
+              <h1 className="text-3xl font-bold text-gray-900">
+                Dashboard (Client)
+              </h1>
               <p className="text-gray-600 mt-2">
                 Welcome back, {user.name || user.email}!
               </p>
@@ -89,9 +91,7 @@ export default function Dashboard() {
             </h3>
             <dl className="text-sm text-gray-600 space-y-1">
               <div>
-                <dt className="inline font-medium text-gray-800">
-                  Expires:{" "}
-                </dt>
+                <dt className="inline font-medium text-gray-800">Expires: </dt>
                 <dd className="inline">
                   {new Date(session.session.expiresAt).toLocaleString()}
                 </dd>

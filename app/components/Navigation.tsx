@@ -18,7 +18,8 @@ export default function Navigation() {
   const navItems = [
     { href: "/", label: "Home" },
     { href: "/auth", label: "Auth" },
-    { href: "/dashboard", label: "Dashboard" },
+    { href: "/dashboard", label: "Dashboard (Client)" },
+    { href: "/dashboard-server", label: "Dashboard (Server)" },
   ];
 
   return (
