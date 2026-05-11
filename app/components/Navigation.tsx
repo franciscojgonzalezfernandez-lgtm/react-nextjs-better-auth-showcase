@@ -26,8 +26,11 @@ export default function Navigation() {
     <nav className="bg-white shadow-sm border-b">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
-          <Link href="/" className="text-xl font-bold text-gray-900">
-            Auth Demo
+          <Link
+            href="/"
+            className="text-xl font-bold bg-gradient-to-r from-brand-600 to-accent-500 bg-clip-text text-transparent"
+          >
+            Better-Auth demo
           </Link>
 
           <div className="hidden md:flex space-x-8">
@@ -37,7 +40,7 @@ export default function Navigation() {
                 href={item.href}
                 className={`px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
                   pathname === item.href
-                    ? "bg-blue-100 text-blue-700"
+                    ? "bg-brand-100 text-brand-700"
                     : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
                 }`}
               >
@@ -56,7 +59,7 @@ export default function Navigation() {
                 </span>
                 <button
                   onClick={handleSignOut}
-                  className="bg-red-600 hover:bg-red-700 text-white text-sm font-medium py-2 px-3 rounded-md transition-colors duration-200"
+                  className="bg-slate-700 hover:bg-slate-800 text-white text-sm font-medium py-2 px-3 rounded-md transition-colors duration-200"
                 >
                   Sign Out
                 </button>
@@ -64,7 +67,7 @@ export default function Navigation() {
             ) : (
               <Link
                 href="/auth"
-                className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-2 px-3 rounded-md transition-colors duration-200"
+                className="bg-brand-600 hover:bg-brand-700 text-white text-sm font-medium py-2 px-3 rounded-md transition-colors duration-200"
               >
                 Sign In
               </Link>
@@ -101,7 +104,7 @@ export default function Navigation() {
                 href={item.href}
                 className={`block px-3 py-2 rounded-md text-base font-medium ${
                   pathname === item.href
-                    ? "bg-blue-100 text-blue-700"
+                    ? "bg-brand-100 text-brand-700"
                     : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
                 }`}
               >

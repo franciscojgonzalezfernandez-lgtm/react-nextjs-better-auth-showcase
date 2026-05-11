@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Auth Demo - Authentication Teaching Website",
+  title: "Better-Auth demo - Authentication Teaching Website",
   description:
     "A comprehensive authentication demo showcasing email/password, GitHub, and Google authentication methods.",
 };
