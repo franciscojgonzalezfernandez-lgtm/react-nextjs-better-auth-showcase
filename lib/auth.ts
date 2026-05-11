@@ -1,12 +1,25 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { prisma } from "@/lib/prisma";
+import resend from "./resend";
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, { provider: "postgresql" }),
   emailAndPassword: {
     enabled: true,
-    autoSignIn: true,
+  },
+  emailVerification: {
+    sendOnSignUp: true,
+    autoSignInAfterVerification: true,
+    requireEmailVerification: true,
+    sendVerificationEmail: async ({ user, url }) => {
+      await resend.emails.send({
+        from: "Acme <onboarding@resend.dev>",
+        to: user.email,
+        subject: "Verify your email in Better Auth Demo",
+        html: `<p>Click <a href="${url}">here</a> to verify your email.</p>`,
+      });
+    },
   },
   socialProviders: {
     github: {
@@ -17,5 +30,9 @@ export const auth = betterAuth({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     },
+  },
+  session: {
+    expiresIn: 60 * 60 * 24 * 30, // 30 days
+    disableSessionRefresh: true,
   },
 });

@@ -31,9 +31,15 @@ export default function AuthPage() {
           email,
           password,
           name: name || email.split("@")[0],
-          callbackURL: "/dashboard",
         });
     setSubmitting(false);
+
+    if (!isSignIn && !error) {
+      alert(
+        "Please verify your email before signing in. Check your inbox for the verification email.",
+      );
+      return;
+    }
 
     if (error) {
       setError(error.message ?? "Authentication failed");
@@ -163,8 +169,8 @@ export default function AuthPage() {
               {submitting
                 ? "Please wait..."
                 : isSignIn
-                ? "Sign In"
-                : "Create Account"}
+                  ? "Sign In"
+                  : "Create Account"}
             </button>
           </form>
 
