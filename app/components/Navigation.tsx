@@ -1,34 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { signOut, useSession } from "@/lib/auth-client";
 
 export default function Navigation() {
   const pathname = usePathname();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const router = useRouter();
+  const { data: session, isPending } = useSession();
 
-  useEffect(() => {
-    // Check authentication status
-    const checkAuth = () => {
-      const mockAuthStatus = localStorage.getItem("isAuthenticated") === "true";
-      setIsAuthenticated(mockAuthStatus);
-    };
-
-    checkAuth();
-
-    // Listen for storage changes (when user signs in/out in another tab)
-    window.addEventListener("storage", checkAuth);
-
-    return () => {
-      window.removeEventListener("storage", checkAuth);
-    };
-  }, []);
-
-  const handleSignOut = () => {
-    localStorage.removeItem("isAuthenticated");
-    setIsAuthenticated(false);
-    alert("You have been signed out!");
+  const handleSignOut = async () => {
+    await signOut();
+    router.push("/");
+    router.refresh();
   };
 
   const navItems = [
@@ -41,12 +25,10 @@ export default function Navigation() {
     <nav className="bg-white shadow-sm border-b">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
-          {/* Logo */}
           <Link href="/" className="text-xl font-bold text-gray-900">
             Auth Demo
           </Link>
 
-          {/* Navigation Links */}
           <div className="hidden md:flex space-x-8">
             {navItems.map((item) => (
               <Link
@@ -63,12 +45,13 @@ export default function Navigation() {
             ))}
           </div>
 
-          {/* Auth Status & Actions */}
           <div className="flex items-center space-x-4">
-            {isAuthenticated ? (
+            {isPending ? (
+              <span className="text-sm text-gray-400">…</span>
+            ) : session ? (
               <div className="flex items-center space-x-3">
                 <span className="text-sm text-green-600 font-medium">
-                  ✓ Authenticated
+                  ✓ {session.user.email}
                 </span>
                 <button
                   onClick={handleSignOut}
@@ -87,7 +70,6 @@ export default function Navigation() {
             )}
           </div>
 
-          {/* Mobile menu button */}
           <div className="md:hidden">
             <button
               type="button"
@@ -110,7 +92,6 @@ export default function Navigation() {
           </div>
         </div>
 
-        {/* Mobile menu */}
         <div className="md:hidden">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             {navItems.map((item) => (
